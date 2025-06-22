@@ -34,7 +34,7 @@ jobs:
         run: |
           echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
           pwd
-          ls -R .#end
+          ls -R .
 
       - name: Install & Build Functions
         working-directory: ./functions      # ← ここで functions 配下を指定

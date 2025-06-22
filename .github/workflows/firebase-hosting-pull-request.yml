@@ -23,6 +23,32 @@ permissions:
 #          projectId: shopping-assist-r001
 
 #copilot suggestion
+#jobs:
+#  build_and_preview:
+#    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#
+#      - name: Debug file tree        # ← 追加するステップ
+#        run: |
+#          echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
+#          pwd
+#          ls -R .
+#
+#      - name: Install & Build Functions
+#        working-directory: ./functions      # ← ここで functions 配下を指定
+#        run: |
+#          npm ci
+#          npm run build
+#
+#      - uses: FirebaseExtended/action-hosting-deploy@v0
+#        with:
+#          repoToken: ${{ secrets.GITHUB_TOKEN }}
+#          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SHOPPING_ASSIST_R001 }}
+#          projectId: shopping-assist-r001
+#          channelId: pr-${{ github.event.pull_request.number }}  # ← PR 番号
+
 jobs:
   build_and_preview:
     if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
@@ -30,21 +56,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Debug file tree        # ← 追加するステップ
-        run: |
-          echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
-          pwd
-          ls -R .
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'       # functions/package.json の engines に合わせる
 
-      - name: Install & Build Functions
-        working-directory: ./functions      # ← ここで functions 配下を指定
-        run: |
-          npm ci
-          npm run build
+      - name: Install Functions Dependencies
+        working-directory: ./functions
+        run: npm ci                # ビルド不要なのでこれだけ
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SHOPPING_ASSIST_R001 }}
           projectId: shopping-assist-r001
-          channelId: pr-${{ github.event.pull_request.number }}  # ← PR 番号
+          channelId: pr-${{ github.event.pull_request.number }}

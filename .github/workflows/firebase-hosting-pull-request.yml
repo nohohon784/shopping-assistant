@@ -30,6 +30,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Debug file tree        # ← 追加するステップ
+        run: |
+          echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
+          pwd
+          ls -R .#end
+
       - name: Install & Build Functions
         working-directory: ./functions      # ← ここで functions 配下を指定
         run: |

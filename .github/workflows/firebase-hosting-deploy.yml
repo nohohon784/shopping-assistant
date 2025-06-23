@@ -29,3 +29,4 @@ jobs:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SHOPPING_ASSIST_R001 }}
           projectId: shopping-assist-r001
+          #channelId: pr-${{ github.event.pull_request.number }}

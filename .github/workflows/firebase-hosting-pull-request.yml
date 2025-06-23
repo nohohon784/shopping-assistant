@@ -99,6 +99,9 @@ jobs:
         working-directory: ./functions
         run: npm ci
 
+      - name: Debug Channel ID
+        run: echo "Calculated channelId: pr-${{ github.event.pull_request.number }}"
+        
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
